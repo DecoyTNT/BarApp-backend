@@ -1,4 +1,5 @@
 const Bebida = require('../models/Bebida');
+const Corte = require('../models/Corte');
 const Orden = require('../models/Orden');
 
 const resolvers = {
@@ -79,6 +80,16 @@ const resolvers = {
                 }
 
                 return orden;
+            } catch (error) {
+                console.log(error);
+                throw new Error(error);
+            }
+        },
+        // cortes
+        obtenerCortes: async () => {
+            try {
+                const cortes = await Corte.find();
+                return cortes;
             } catch (error) {
                 console.log(error);
                 throw new Error(error);
@@ -193,7 +204,30 @@ const resolvers = {
                 throw new Error(error);
             }
         },
+        // cortes
+        nuevoCorte: async () => {
+            try {
+                let nuevoCorte = {}
+                let total = 0;
 
+                const ordenes = await Orden.find({ completada: true, proceso: true, corte: false });
+
+                ordenes.map(async orden => {
+                    total = parseFloat(orden.total) + parseFloat(total);
+                    await Orden.findByIdAndUpdate(orden.id, { corte: true });
+                });
+
+                nuevoCorte.total = parseFloat(total);
+                nuevoCorte.ordenes = ordenes;
+
+                const corte = new Corte(nuevoCorte);
+                await corte.save();
+                return corte
+            } catch (error) {
+                console.log(error);
+                throw new Error(error);
+            }
+        }
     }
 }
 

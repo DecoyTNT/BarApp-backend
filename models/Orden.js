@@ -21,6 +21,14 @@ const OrdenSchema = mongoose.Schema({
     proceso: {
         type: Boolean,
         default: false
+    },
+    corte: {
+        type: Boolean,
+        default: false
+    },
+    creado: {
+        type: Date,
+        default: new Date()
     }
 });
 

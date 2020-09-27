@@ -21,6 +21,8 @@ const typeDefs = gql`
         completada: Boolean
         proceso: Boolean
         cliente: String
+        corte: Boolean
+        creado: String
     }
 
     type BebidaOrden {
@@ -31,6 +33,24 @@ const typeDefs = gql`
         nombre: String
         precio: Float
         totalBebida: Float
+    }
+
+    type Corte {
+        id: ID
+        ordenes: [OrdenesCorte]
+        creado: String
+        total: Float
+    }
+
+    type OrdenesCorte {
+        orden: ID
+        bebidas: [BebidaOrden]
+        total: Float
+        completada: Boolean
+        proceso: Boolean
+        cliente: String
+        corte: Boolean
+        creado: String
     }
 
     input BebidaInput {
@@ -49,6 +69,7 @@ const typeDefs = gql`
         completada: Boolean
         proceso: Boolean
         cliente: String
+        corte: Boolean
     }
 
     input OrdenBebidasInput {
@@ -87,6 +108,10 @@ const typeDefs = gql`
         obtenerOrdenesCompletadas: [Orden]
         obtenerOrdenesNoCompletadas: [Orden]
         obtenerOrden(id: ID): [Orden]
+
+        # cortes
+        obtenerCortes: [Corte]
+        obtenerCorte(id: ID): Corte
     }
 
     type Mutation {
@@ -100,6 +125,9 @@ const typeDefs = gql`
         actualizarOrden(input: OrdenInput, id: ID): Orden
         actualizarOrdenCompletada(input: OrdenInput, id: ID): Orden
         eliminarOrden(id: ID): String
+
+        # cortes
+        nuevoCorte: Corte
     }
 `;
 
