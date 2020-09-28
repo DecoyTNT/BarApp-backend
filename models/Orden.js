@@ -28,7 +28,7 @@ const OrdenSchema = mongoose.Schema({
     },
     creado: {
         type: Date,
-        default: new Date()
+        default: Date.now()
     }
 });
 

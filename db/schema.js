@@ -70,6 +70,7 @@ const typeDefs = gql`
         proceso: Boolean
         cliente: String
         corte: Boolean
+        creado: String
     }
 
     input OrdenBebidasInput {
@@ -81,6 +82,23 @@ const typeDefs = gql`
         precio: Float
         totalBebida: Float
     }
+
+    input CorteInput {
+        creado: String
+        ordenes: [CorteOrdenesInput]
+    }
+
+    input CorteOrdenesInput {
+        orden: ID
+        bebidas: [OrdenBebidasInput]
+        total: Float
+        completada: Boolean
+        proceso: Boolean
+        cliente: String
+        corte: Boolean
+        creado: String
+    }
+
 
     enum TipoAlcoholBebida {
         tequila
@@ -127,7 +145,7 @@ const typeDefs = gql`
         eliminarOrden(id: ID): String
 
         # cortes
-        nuevoCorte: Corte
+        nuevoCorte(input: CorteInput): Corte
     }
 `;
 

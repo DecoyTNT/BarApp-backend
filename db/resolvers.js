@@ -47,7 +47,7 @@ const resolvers = {
         // ordenes
         obtenerOrdenes: async () => {
             try {
-                const ordenes = await Orden.find();
+                const ordenes = await Orden.find({ corte: false });
                 return ordenes
             } catch (error) {
                 console.log(error);
@@ -99,7 +99,6 @@ const resolvers = {
     Mutation: {
         // bebidas
         nuevaBebida: async (_, { input }) => {
-            console.log(input);
             try {
                 const bebida = new Bebida(input);
                 await bebida.save();
@@ -205,22 +204,21 @@ const resolvers = {
             }
         },
         // cortes
-        nuevoCorte: async () => {
+        nuevoCorte: async (_, { input }) => {
             try {
-                let nuevoCorte = {}
+
                 let total = 0;
 
-                const ordenes = await Orden.find({ completada: true, proceso: true, corte: false });
+                let ordenes = await Orden.find({ completada: true, proceso: true, corte: false });
 
                 ordenes.map(async orden => {
                     total = parseFloat(orden.total) + parseFloat(total);
                     await Orden.findByIdAndUpdate(orden.id, { corte: true });
                 });
 
-                nuevoCorte.total = parseFloat(total);
-                nuevoCorte.ordenes = ordenes;
+                input.total = parseFloat(total);
 
-                const corte = new Corte(nuevoCorte);
+                const corte = new Corte(input);
                 await corte.save();
                 return corte
             } catch (error) {

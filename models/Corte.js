@@ -7,7 +7,7 @@ const CorteSchema = mongoose.Schema({
     },
     creado: {
         type: Date,
-        default: new Date()
+        default: Date.now()
     },
     total: {
         type: Number
