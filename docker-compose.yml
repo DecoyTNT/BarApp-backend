@@ -1,0 +1,22 @@
+version: "3"
+
+services: 
+    bar-node:
+        container_name: bar-node
+        restart: always
+        build: .
+        ports: 
+            - "4000:4000"
+        environment: 
+            NODE_ENV: production
+            DB_MONGO: mongodb+srv://DecoyTNT:DecoyTNT@cluster0-2oskw.mongodb.net/barbuganvilias
+            SECRETA: esta-es-la-palabra-secreta
+        links: 
+            - "mongo"
+    mongo:
+        container_name: bar-db
+        image: mongo
+        ports: 
+            - "27017:27017"
+        volumes: 
+            - /home/ubuntu/bd-bar:/data/db
