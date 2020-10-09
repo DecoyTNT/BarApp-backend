@@ -1,6 +1,7 @@
 const Bebida = require('../models/Bebida');
 const Corte = require('../models/Corte');
 const Orden = require('../models/Orden');
+const Usuario = require('../models/Usuario');
 
 const resolvers = {
     Query: {
@@ -97,6 +98,17 @@ const resolvers = {
         }
     },
     Mutation: {
+        // usuarios
+        nuevoUsuario: async (_, { input }) => {
+            try {
+                const usuario = new Usuario(input);
+                await usuario.save();
+                return usuario;
+            } catch (error) {
+                console.log(error);
+                throw new Error(error);
+            }
+        },
         // bebidas
         nuevaBebida: async (_, { input }) => {
             try {

@@ -3,6 +3,14 @@ const { gql } = require("apollo-server");
 // Schema
 const typeDefs = gql`
 
+    type Usuario {
+        id: ID
+        nombre: String
+        apellido: String
+        email: String
+        rol: TipoRol
+    }
+
     type Bebida {
         id: ID
         nombre: String
@@ -53,6 +61,14 @@ const typeDefs = gql`
         creado: String
     }
 
+    input UsuarioInput {
+        nombre: String
+        apellido: String
+        email: String
+        password: String
+        rol: TipoRol
+    }
+
     input BebidaInput {
         nombre: String
         tipoAlcohol: TipoAlcoholBebida
@@ -99,6 +115,10 @@ const typeDefs = gql`
         creado: String
     }
 
+    enum TipoRol {
+        admin
+        mesero
+    }
 
     enum TipoAlcoholBebida {
         tequila
@@ -133,6 +153,9 @@ const typeDefs = gql`
     }
 
     type Mutation {
+        # usuarios
+        nuevoUsuario(input: UsuarioInput): Usuario
+
         # bebidas
         nuevaBebida(input: BebidaInput): Bebida
         actualizarBebida(input: BebidaInput, id: ID): Bebida
